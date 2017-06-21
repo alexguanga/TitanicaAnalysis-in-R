@@ -192,6 +192,25 @@ ggplot(data.combined[1:891,], aes(x=Parch, fill=factor(Survived))) +
   labs(fill='Survived')
 
 
+# Feature enginering. Creating family size
+# We are combining it one list after the other. 
+# Ex. It stores all the 'Sibsb' variable in one big list
+# and 'Parsh' in another large list
+# then, we can combine both since they are indexed the same 
+temp.sibsp <- c(train$SibSp, test$SibSp) 
+temp.parsh <- c(train$Parch, test$Parch)
+data.combined$FamilySize <- as.factor(temp.sibsp + temp.parsh + 1)
+
+ggplot(data.combined[1:891,], aes(x=FamilySize, fill=factor(Survived))) +
+  facet_wrap(~Pclass + Title) +
+  geom_bar(width=1) +
+  ggtitle("Pclass, title") +
+  xlab("Family Size") +
+  ylab("Total Count") +
+  ylim(0,300) + # Interval for the y-axis
+  labs(fill='Survived')
+
+
 
 
 
