@@ -106,6 +106,92 @@ ggplot(data.combined[1:891,], aes(x=Title, fill=factor(Survived))) +
   xlab("Title") +
   ylab("Total Count") +
   labs(fill="Survived")
-        
+
+# Graph above tell us that women and children first, especially among middle and upper class
+# A lot of men died from the lower and middle class (upper class were split even)
+
+# Master: Young boys & Miss: Young girls
+
+# Looking at the sex among different classes
+ggplot(data.combined[1:891,], aes(x=Sex, fill=factor(Survived))) +
+  geom_bar(width=0.5) + 
+  facet_wrap(~Pclass) + 
+  ggtitle("Pclass") +
+  xlab("Title") +
+  ylab("Total Count") +
+  labs(fill="Survived")
+
+
+# Looking at age over the entire data set
+summary(data.combined$Age)
+summary(data.combined[1:891, "Age"]) # Only looking at the train dataset
+ggplot(data.combined[1:891,], aes(x=Age, fill=factor(Survived))) +
+  geom_histogram(binwidth=10) + 
+  facet_wrap(~Sex + Pclass) + 
+  xlab("Age") +
+  ylab("Total Count") + 
+  labs(fill='Survived')
+# Result: there are 263 NA's (or missing values), 177 come from train dataset
+
+
+# Validate that "Master. " is a good proxy for male children
+boys <- data.combined[which(data.combined$Title == "Master."),]
+summary(boys$Age)
+# Result: Seem positive. The max is 14.5 age and min is a 0.330
+
+
+# Investigate information on "Miss." 
+misses <- data.combined[which(data.combined$Title == "Miss."),]
+summary(misses$Age)
+# Result: Not quite positive. Max is 63 and min is 0.17 
+
+# Only getting info. from the table where Survived is not equal to None
+ggplot(misses[misses$Survived != "None",], aes(x=Age, fill=factor(Survived))) +
+         facet_wrap(~Pclass) +
+         geom_histogram(binwidth=10) +
+         ggtitle("Age for Miss. by Pclass") +
+         xlab("Age") +
+         ylab("Total Count")
+
+
+# Calculating misses that are traveling alone 
+misses.alone <- misses[which(misses$SibSp == 0 & misses$Parch == 0),]
+summary(misses.alone$Age)
+length(which(misses.alone$Age <= 14.5))
+# Result: misses who are traveling tend to be young adults 
+
+
+# Info on the sibsp variable
+summary(data.combined$SibSp)
+
+# Find the different number of Sibsp possible
+length(unique(data.combined$SibSp))
+
+# Change this data type to factor
+data.combined$SibSp <- as.factor(data.combined$SibSp)
+
+ggplot(data.combined[1:891,], aes(x=SibSp, fill=factor(Survived))) +
+  facet_wrap(~Pclass + Title) +
+  geom_bar(width=1) +
+  ggtitle("Pclass, title") +
+  xlab("Sibsb") +
+  ylab("Total Count") +
+  ylim(0,300) + # Interval for the y-axis
+  labs(fill='Survived')
+
+
+# Info on the parch variable
+data.combined$Parch <- as.factor(data.combined$Parch)
+ggplot(data.combined[1:891,], aes(x=Parch, fill=factor(Survived))) +
+  facet_wrap(~Pclass + Title) +
+  geom_bar(width=1) +
+  ggtitle("Pclass, title") +
+  xlab("Parch") +
+  ylab("Total Count") +
+  ylim(0,300) + # Interval for the y-axis
+  labs(fill='Survived')
+
+
+
 
 
