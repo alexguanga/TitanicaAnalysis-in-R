@@ -1,0 +1,17 @@
+This a standard data science project for many beginners. 
+
+This projects deals with looking at the passengers in the titanic. Like most problems nowadays, we are focusing on the data. We want to be able to predict a passenger. There are features for each passengers and our goals is to see if we can focus on the important features. Then, this will allow to narrow down and only use the features that are necessary.
+
+Using visualization and feature enginnering, we were able to notice the some of the most important features were Title, Pclass, SibSp, Parch, FamilySize. Using RandomForest, the cross-matrix did serve some clarification but it narrows down to which type of error is more acceptable in this situation. 
+
+Our first model was chosen as with the parameters "Pclass", "Title", "FamilySize" under a 
+RandomForest Model. The results were
+    0   1 class.error
+0 485  64   0.1165756
+1 100 242   0.2923977
+
+The Cross-Validation does require more practice. The concept is understandable but the code isn't yet well comprehened by me. 
+
+We got a 79% accuracy. We can do better, so we decied to use decison trees so we can check out them individuals features to get an idea of where the data's being overfitted. 
+
+The last model that will be used will be "Pclass", "Updated.Title", "FamilySize", "Ticket.Party.Size", "Avg.Fare". Keep in mind that these features had to be created. Throughout this project, I learned that feature enginnering is crucical to have the best predictions. 
